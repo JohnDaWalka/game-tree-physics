@@ -236,8 +236,8 @@ class PokerGame {
         return {
             fourOfKind: hasFourOfKind,
             threeOfKind: hasThreeOfKind,
-            pair: pairCount >= 1 && !hasFourOfKind && !hasThreeOfKind,
-            twoPair: pairCount >= 2
+            pair: pairCount === 1 && !hasFourOfKind && !hasThreeOfKind,
+            twoPair: pairCount === 2 && !hasFourOfKind && !hasThreeOfKind
         };
     }
 

@@ -279,12 +279,20 @@ function processAITurns() {
         const action = game.aiPlayerAction(index);
         if (action) {
             aiActed = true;
+            const actionPastTense = {
+                'check': 'checked',
+                'call': 'called',
+                'fold': 'folded',
+                'raise': 'raised'
+            };
+            
             if (typeof action === 'object') {
                 game.playerAction(index, action.action, action.amount);
                 updateGameStatus(`${player.name} raised to $${action.amount}`);
             } else {
                 game.playerAction(index, action);
-                updateGameStatus(`${player.name} ${action}ed`);
+                const pastTense = actionPastTense[action] || action + 'ed';
+                updateGameStatus(`${player.name} ${pastTense}`);
             }
         }
     });
@@ -354,17 +362,9 @@ function endHand() {
     
     updateGameStatus(`${winner.name} wins $${game.pot} with ${handEval.name}!`);
     
-    // Reveal all hands
-    revealAllHands();
-    
     renderGame();
     disableActionButtons();
     nextHandBtn.style.display = 'block';
-}
-
-function revealAllHands() {
-    // This would show opponent cards in showdown
-    // For simplicity, we'll just update the display
 }
 
 function updateGameStatus(message) {
