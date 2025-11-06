@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Game Tree - Dedicated to Marine Jake Pettit</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Texas Hold'em Poker</h1>
+            <p class="dedication">Dedicated to Marine Jake Pettit - Thank you for your service</p>
+        </header>
+        
+        <div class="game-info">
+            <div class="score-panel">
+                <div class="score-item">
+                    <span class="label">Your Chips:</span>
+                    <span id="playerChips">1000</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">Pot:</span>
+                    <span id="pot">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">CPU Chips:</span>
+                    <span id="cpuChips">1000</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="pokerTable">
+            <div id="communityCards" class="card-area">
+                <h3>Community Cards</h3>
+                <div id="communityCardsContainer" class="cards-container"></div>
+            </div>
+            
+            <div id="cpuHand" class="player-area">
+                <h3>Opponent</h3>
+                <div id="cpuCardsContainer" class="cards-container"></div>
+                <p id="cpuAction" class="action-text"></p>
+            </div>
+            
+            <div id="playerHand" class="player-area">
+                <h3>Your Hand</h3>
+                <div id="playerCardsContainer" class="cards-container"></div>
+                <p id="playerHandRank" class="hand-rank"></p>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="newGameBtn" class="btn btn-primary">New Game</button>
+            <button id="foldBtn" class="btn btn-danger" disabled>Fold</button>
+            <button id="checkBtn" class="btn btn-secondary" disabled>Check/Call</button>
+            <button id="raiseBtn" class="btn btn-success" disabled>Raise</button>
+        </div>
+
+        <div id="raisePanel" class="raise-panel" style="display: none;">
+            <label for="raiseAmount">Raise Amount:</label>
+            <input type="number" id="raiseAmount" min="10" max="1000" value="50" step="10">
+            <button id="confirmRaiseBtn" class="btn btn-success">Confirm</button>
+            <button id="cancelRaiseBtn" class="btn btn-secondary">Cancel</button>
+        </div>
+
+        <div id="messageBox" class="message-box"></div>
+
+        <div class="instructions">
+            <h3>Game Tree Analysis</h3>
+            <p>This poker game uses game tree concepts to analyze optimal decision making:</p>
+            <ul>
+                <li><strong>Pre-flop:</strong> Initial hand strength evaluation</li>
+                <li><strong>Flop:</strong> Community cards reveal new possibilities</li>
+                <li><strong>Turn & River:</strong> Strategic betting based on odds</li>
+                <li><strong>AI Opponent:</strong> Makes decisions using simplified game tree analysis</li>
+                <li>Try to outsmart the AI and win all the chips!</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
