@@ -1,0 +1,432 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    color: #fff;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.main-content {
+    display: flex;
+    gap: 20px;
+}
+
+/* Coaching Panel */
+.coaching-panel {
+    flex: 0 0 300px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.coaching-panel h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+    padding-bottom: 10px;
+}
+
+.coach-section {
+    margin-bottom: 25px;
+}
+
+.coach-section h3 {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    color: #ffdd57;
+}
+
+.strength-bar {
+    width: 100%;
+    height: 30px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.strength-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff4444, #ffaa00, #44ff44);
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+#strength-text {
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.recommendation {
+    background: rgba(255,221,87,0.2);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #ffdd57;
+    font-weight: bold;
+}
+
+#coaching-tips {
+    list-style: none;
+}
+
+#coaching-tips li {
+    padding: 8px;
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+/* Decision Tree */
+.decision-tree {
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 8px;
+    min-height: 100px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.tree-info {
+    font-size: 0.85em;
+    opacity: 0.8;
+    text-align: center;
+}
+
+.tree-node {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    padding: 5px;
+    background: rgba(255,255,255,0.05);
+    border-left: 3px solid #ffdd57;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.tree-node.player-action {
+    border-left-color: #44ff44;
+}
+
+.tree-node.opponent-action {
+    border-left-color: #ff8844;
+}
+
+.tree-node.phase-change {
+    border-left-color: #8844ff;
+    font-weight: bold;
+}
+
+.tree-node-icon {
+    margin-right: 8px;
+    font-size: 1em;
+}
+
+/* Game Area */
+.game-area {
+    flex: 1;
+    background: rgba(0, 100, 0, 0.3);
+    border-radius: 15px;
+    padding: 30px;
+    position: relative;
+    min-height: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Community Cards */
+.community-cards {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.community-cards h3 {
+    margin-bottom: 15px;
+}
+
+.cards-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Card Styles */
+.card {
+    width: 80px;
+    height: 112px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.card.small {
+    width: 50px;
+    height: 70px;
+    font-size: 1em;
+}
+
+.card-back {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 2px solid #fff;
+}
+
+.card.revealed {
+    background: white;
+    color: #000;
+    border: 2px solid #333;
+    flex-direction: column;
+}
+
+.card.red {
+    color: #ff0000;
+}
+
+.card.black {
+    color: #000;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Pot Display */
+.pot-display {
+    text-align: center;
+    background: rgba(255,215,0,0.2);
+    padding: 15px 30px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.pot-display h3 {
+    font-size: 1.5em;
+    color: #ffd700;
+}
+
+/* Opponents */
+.opponents {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.player {
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 10px;
+    min-width: 200px;
+}
+
+.player-info {
+    margin-bottom: 10px;
+}
+
+.player-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.player-chips {
+    color: #ffdd57;
+}
+
+.player-cards {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.player-action {
+    font-size: 0.9em;
+    font-style: italic;
+    color: #ffdd57;
+    min-height: 20px;
+}
+
+/* Your Hand */
+.your-hand {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.your-hand h3 {
+    margin-bottom: 15px;
+}
+
+.your-info {
+    margin-top: 15px;
+    font-size: 1.2em;
+    color: #ffdd57;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.action-btn {
+    padding: 12px 24px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#fold-btn {
+    background: #ff4444;
+    color: white;
+}
+
+#check-btn {
+    background: #44aaff;
+    color: white;
+}
+
+#call-btn {
+    background: #44ff44;
+    color: #000;
+}
+
+#raise-btn {
+    background: #ffaa00;
+    color: #000;
+}
+
+.raise-controls {
+    display: none;
+    gap: 10px;
+    align-items: center;
+}
+
+.raise-controls.active {
+    display: flex;
+}
+
+#raise-amount {
+    width: 100px;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 2px solid #ffaa00;
+}
+
+.action-btn.small {
+    padding: 8px 16px;
+    font-size: 0.9em;
+}
+
+/* Game Controls */
+.game-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.control-btn {
+    padding: 12px 30px;
+    font-size: 1.1em;
+    background: #8844ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: #9955ff;
+    transform: scale(1.05);
+}
+
+/* Game Status */
+.game-status {
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 15px;
+    background: rgba(255,215,0,0.2);
+    border-radius: 8px;
+    margin-top: 20px;
+    min-height: 50px;
+    color: #ffdd57;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-content {
+        flex-direction: column;
+    }
+    
+    .coaching-panel {
+        flex: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .opponents {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        width: 100%;
+    }
+}

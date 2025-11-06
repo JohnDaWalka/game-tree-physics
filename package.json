@@ -1,0 +1,15 @@
+{
+  "name": "poker-coach-game",
+  "version": "1.0.0",
+  "description": "A poker app with coaching features and interactive UI",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8080"
+  },
+  "keywords": ["poker", "game", "coaching", "interactive"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

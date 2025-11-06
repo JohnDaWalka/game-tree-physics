@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Coach - Learn & Play Texas Hold'em</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Poker Coach</h1>
+            <p class="subtitle">Learn Texas Hold'em with Real-Time Coaching</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Coaching Panel -->
+            <aside class="coaching-panel">
+                <h2>Coach's Corner</h2>
+                <div class="coach-section">
+                    <h3>Hand Strength</h3>
+                    <div id="hand-strength" class="metric">
+                        <div class="strength-bar">
+                            <div id="strength-fill" class="strength-fill"></div>
+                        </div>
+                        <p id="strength-text">Waiting for cards...</p>
+                    </div>
+                </div>
+                <div class="coach-section">
+                    <h3>Recommended Action</h3>
+                    <p id="recommended-action" class="recommendation">Deal cards to start</p>
+                </div>
+                <div class="coach-section">
+                    <h3>Coaching Tips</h3>
+                    <ul id="coaching-tips">
+                        <li>Position matters - later positions have more information</li>
+                        <li>Don't play every hand - be selective</li>
+                    </ul>
+                </div>
+                <div class="coach-section">
+                    <h3>Decision Tree</h3>
+                    <div id="decision-tree" class="decision-tree">
+                        <p class="tree-info">Your decision path will appear here</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Game Area -->
+            <main class="game-area">
+                <!-- Community Cards -->
+                <div class="community-cards">
+                    <h3>Community Cards</h3>
+                    <div id="community-cards-display" class="cards-container">
+                        <div class="card card-back"></div>
+                        <div class="card card-back"></div>
+                        <div class="card card-back"></div>
+                        <div class="card card-back"></div>
+                        <div class="card card-back"></div>
+                    </div>
+                </div>
+
+                <!-- Pot -->
+                <div class="pot-display">
+                    <h3>Pot: $<span id="pot-amount">0</span></h3>
+                </div>
+
+                <!-- Opponents -->
+                <div class="opponents">
+                    <div class="player opponent" id="opponent1">
+                        <div class="player-info">
+                            <p class="player-name">Opponent 1</p>
+                            <p class="player-chips">$<span class="chips">1000</span></p>
+                        </div>
+                        <div class="player-cards">
+                            <div class="card card-back small"></div>
+                            <div class="card card-back small"></div>
+                        </div>
+                        <p class="player-action"></p>
+                    </div>
+                    <div class="player opponent" id="opponent2">
+                        <div class="player-info">
+                            <p class="player-name">Opponent 2</p>
+                            <p class="player-chips">$<span class="chips">1000</span></p>
+                        </div>
+                        <div class="player-cards">
+                            <div class="card card-back small"></div>
+                            <div class="card card-back small"></div>
+                        </div>
+                        <p class="player-action"></p>
+                    </div>
+                </div>
+
+                <!-- Your Hand -->
+                <div class="your-hand">
+                    <h3>Your Hand</h3>
+                    <div id="your-cards" class="cards-container">
+                        <div class="card card-back"></div>
+                        <div class="card card-back"></div>
+                    </div>
+                    <div class="your-info">
+                        <p>Your Chips: $<span id="your-chips">1000</span></p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="fold-btn" class="action-btn">Fold</button>
+                    <button id="check-btn" class="action-btn">Check</button>
+                    <button id="call-btn" class="action-btn">Call $<span id="call-amount">0</span></button>
+                    <button id="raise-btn" class="action-btn">Raise</button>
+                    <div class="raise-controls" id="raise-controls">
+                        <input type="number" id="raise-amount" min="0" value="50">
+                        <button id="raise-confirm-btn" class="action-btn small">Confirm</button>
+                    </div>
+                </div>
+
+                <!-- Game Controls -->
+                <div class="game-controls">
+                    <button id="new-game-btn" class="control-btn">New Game</button>
+                    <button id="next-hand-btn" class="control-btn" style="display:none;">Next Hand</button>
+                </div>
+
+                <!-- Game Status -->
+                <div id="game-status" class="game-status"></div>
+            </main>
+        </div>
+    </div>
+
+    <script src="poker-game.js"></script>
+    <script src="poker-ui.js"></script>
+</body>
+</html>
