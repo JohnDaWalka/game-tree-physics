@@ -184,9 +184,14 @@ function handlePlayerAction(action) {
     game.playerAction(0, action);
     renderGame();
     
-    const actionText = action === 'check' ? 'checked' : 
-                       action === 'call' ? 'called' :
-                       action === 'fold' ? 'folded' : action + 'ed';
+    // Create proper past tense
+    const actionPastTense = {
+        'check': 'checked',
+        'call': 'called',
+        'fold': 'folded',
+        'raise': 'raised'
+    };
+    const actionText = actionPastTense[action] || action + 'ed';
     updateGameStatus(`You ${actionText}.`);
     
     // Process AI turns

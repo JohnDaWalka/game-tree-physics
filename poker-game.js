@@ -153,9 +153,17 @@ class PokerGame {
         const hasStraight = this.checkStraight(allCards);
         const pairs = this.checkPairs(allCards);
         
+        // Check for full house properly
+        const ranks = {};
+        allCards.forEach(card => {
+            ranks[card.value] = (ranks[card.value] || 0) + 1;
+        });
+        const counts = Object.values(ranks).sort((a, b) => b - a);
+        const hasFullHouse = counts[0] === 3 && counts[1] >= 2;
+        
         if (hasFlush && hasStraight) return { rank: 8, name: 'Straight Flush' };
         if (pairs.fourOfKind) return { rank: 7, name: 'Four of a Kind' };
-        if (pairs.threeOfKind && pairs.pair) return { rank: 6, name: 'Full House' };
+        if (hasFullHouse) return { rank: 6, name: 'Full House' };
         if (hasFlush) return { rank: 5, name: 'Flush' };
         if (hasStraight) return { rank: 4, name: 'Straight' };
         if (pairs.threeOfKind) return { rank: 3, name: 'Three of a Kind' };
@@ -197,11 +205,15 @@ class PokerGame {
         });
         
         const counts = Object.values(ranks);
+        const hasFourOfKind = counts.includes(4);
+        const hasThreeOfKind = counts.includes(3);
+        const pairCount = counts.filter(c => c === 2).length;
+        
         return {
-            fourOfKind: counts.includes(4),
-            threeOfKind: counts.includes(3),
-            pair: counts.includes(2),
-            twoPair: counts.filter(c => c === 2).length >= 2
+            fourOfKind: hasFourOfKind,
+            threeOfKind: hasThreeOfKind,
+            pair: pairCount >= 1 && !hasFourOfKind && !hasThreeOfKind,
+            twoPair: pairCount >= 2
         };
     }
 
