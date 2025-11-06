@@ -184,7 +184,10 @@ function handlePlayerAction(action) {
     game.playerAction(0, action);
     renderGame();
     
-    updateGameStatus(`You ${action}ed.`);
+    const actionText = action === 'check' ? 'checked' : 
+                       action === 'call' ? 'called' :
+                       action === 'fold' ? 'folded' : action + 'ed';
+    updateGameStatus(`You ${actionText}.`);
     
     // Process AI turns
     setTimeout(() => processAITurns(), 1000);
@@ -193,7 +196,7 @@ function handlePlayerAction(action) {
 function handleRaise() {
     if (!game) return;
     
-    const amount = parseInt(raiseAmount.value);
+    const amount = parseInt(raiseAmount.value, 10);
     if (amount <= game.currentBet) {
         alert('Raise must be higher than current bet!');
         return;

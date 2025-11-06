@@ -175,9 +175,18 @@ class PokerGame {
 
     checkStraight(cards) {
         const values = [...new Set(cards.map(c => c.value))].sort((a, b) => a - b);
+        
+        // Check for regular straights
         for (let i = 0; i <= values.length - 5; i++) {
             if (values[i + 4] - values[i] === 4) return true;
         }
+        
+        // Check for A-2-3-4-5 (wheel) straight
+        if (values.includes(14) && values.includes(2) && values.includes(3) && 
+            values.includes(4) && values.includes(5)) {
+            return true;
+        }
+        
         return false;
     }
 
@@ -200,22 +209,28 @@ class PokerGame {
         const activePlayers = this.players.filter(p => !p.folded);
         
         if (activePlayers.length === 1) {
+            activePlayers[0].chips += this.pot;
             return activePlayers[0];
         }
 
         let bestPlayer = null;
-        let bestHand = { rank: -1 };
+        let bestHand = { rank: -1, highCard: 0 };
 
         activePlayers.forEach(player => {
             const handRank = this.evaluateHand(player.hand, this.communityCards);
+            const currentHighCard = handRank.highCard || 0;
+            const bestHighCard = bestHand.highCard || 0;
+            
             if (handRank.rank > bestHand.rank || 
-                (handRank.rank === bestHand.rank && handRank.highCard > bestHand.highCard)) {
+                (handRank.rank === bestHand.rank && currentHighCard > bestHighCard)) {
                 bestHand = handRank;
                 bestPlayer = player;
             }
         });
 
-        bestPlayer.chips += this.pot;
+        if (bestPlayer) {
+            bestPlayer.chips += this.pot;
+        }
         return bestPlayer;
     }
 
@@ -226,7 +241,15 @@ class PokerGame {
         const handEval = this.evaluateHand(player.hand, this.communityCards);
         
         // Convert hand rank to percentage (0-100)
-        const strength = (handEval.rank / 8) * 100;
+        // Base strength from hand rank (0-8) gives us 0-100% range
+        let strength = (handEval.rank / 8) * 100;
+        
+        // For high card hands, add bonus based on card values
+        if (handEval.rank === 0 && handEval.highCard) {
+            // High cards range from 2-14 (Ace), add up to 15% bonus
+            strength += ((handEval.highCard - 2) / 12) * 15;
+        }
+        
         return Math.min(100, Math.max(0, strength));
     }
 
@@ -234,7 +257,7 @@ class PokerGame {
         const player = this.players[playerIndex];
         const strength = this.getHandStrength(playerIndex);
         const callAmount = this.currentBet - player.bet;
-        const potOdds = callAmount / (this.pot + callAmount);
+        const potOdds = (this.pot + callAmount) > 0 ? callAmount / (this.pot + callAmount) : 0;
 
         if (strength > 70) {
             return { action: 'raise', reason: 'Strong hand - maximize value' };
