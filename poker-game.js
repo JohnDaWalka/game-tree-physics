@@ -9,6 +9,7 @@ class PokerGame {
         this.currentBet = 0;
         this.dealer = 0;
         this.phase = 'preflop'; // preflop, flop, turn, river, showdown
+        this.decisionHistory = []; // Track all decisions
         this.initializePlayers();
     }
 
@@ -73,6 +74,7 @@ class PokerGame {
         this.pot = 0;
         this.currentBet = 0;
         this.phase = 'preflop';
+        this.decisionHistory = []; // Reset decision history
         
         // Reset players
         this.players.forEach(player => {
@@ -90,6 +92,9 @@ class PokerGame {
         this.players[2].bet = 20;
         this.pot = 30;
         this.currentBet = 20;
+        
+        // Log initial state
+        this.logDecision('game', 'New hand started', { pot: this.pot, phase: this.phase });
     }
 
     playerAction(playerIndex, action, amount = 0) {
@@ -118,6 +123,13 @@ class PokerGame {
                 this.pot += raiseAmount;
                 break;
         }
+        
+        // Log the decision
+        this.logDecision(player.name, action, { 
+            amount: amount || this.currentBet, 
+            pot: this.pot,
+            phase: this.phase 
+        });
     }
 
     nextPhase() {
@@ -129,14 +141,26 @@ class PokerGame {
             case 'preflop':
                 this.phase = 'flop';
                 this.dealCommunityCards(3);
+                this.logDecision('game', 'Flop revealed', { 
+                    cards: this.communityCards.length,
+                    phase: this.phase 
+                });
                 break;
             case 'flop':
                 this.phase = 'turn';
                 this.dealCommunityCards(1);
+                this.logDecision('game', 'Turn revealed', { 
+                    cards: this.communityCards.length,
+                    phase: this.phase 
+                });
                 break;
             case 'turn':
                 this.phase = 'river';
                 this.dealCommunityCards(1);
+                this.logDecision('game', 'River revealed', { 
+                    cards: this.communityCards.length,
+                    phase: this.phase 
+                });
                 break;
             case 'river':
                 this.phase = 'showdown';
@@ -345,5 +369,20 @@ class PokerGame {
         } else {
             return recommendation.action;
         }
+    }
+
+    logDecision(player, action, details = {}) {
+        this.decisionHistory.push({
+            timestamp: Date.now(),
+            player: player,
+            action: action,
+            phase: this.phase,
+            pot: this.pot,
+            ...details
+        });
+    }
+
+    getDecisionHistory() {
+        return this.decisionHistory;
     }
 }

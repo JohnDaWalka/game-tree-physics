@@ -88,6 +88,15 @@ Dynamic tips that adapt to:
 - Hand strength
 - Game situation
 
+### Decision Tree
+Visual game tree that tracks:
+- Every action taken in the hand
+- Phase transitions (preflop → flop → turn → river)
+- Player decisions vs opponent decisions
+- Complete hand history for analysis
+
+This feature helps players understand the flow of the game and review their decision-making process, similar to GTO (Game Theory Optimal) poker solvers.
+
 ## Technical Details
 
 - **Pure JavaScript**: No frameworks required

@@ -11,6 +11,7 @@ const strengthFill = document.getElementById('strength-fill');
 const strengthText = document.getElementById('strength-text');
 const recommendedAction = document.getElementById('recommended-action');
 const coachingTips = document.getElementById('coaching-tips');
+const decisionTree = document.getElementById('decision-tree');
 
 // Buttons
 const newGameBtn = document.getElementById('new-game-btn');
@@ -176,6 +177,48 @@ function updateCoaching() {
         li.textContent = tip;
         coachingTips.appendChild(li);
     });
+    
+    // Update decision tree
+    updateDecisionTree();
+}
+
+function updateDecisionTree() {
+    if (!game) return;
+    
+    const history = game.getDecisionHistory();
+    decisionTree.innerHTML = '';
+    
+    if (history.length === 0) {
+        const info = document.createElement('p');
+        info.className = 'tree-info';
+        info.textContent = 'Your decision path will appear here';
+        decisionTree.appendChild(info);
+        return;
+    }
+    
+    // Show last 8 decisions
+    const recentHistory = history.slice(-8);
+    recentHistory.forEach(entry => {
+        const node = document.createElement('div');
+        node.className = 'tree-node';
+        
+        // Determine node type
+        if (entry.player === 'game') {
+            node.classList.add('phase-change');
+            node.innerHTML = `<span class="tree-node-icon">🎯</span>${entry.action}`;
+        } else if (entry.player === 'You') {
+            node.classList.add('player-action');
+            node.innerHTML = `<span class="tree-node-icon">✓</span>You ${entry.action}${entry.amount > 0 ? ' $' + entry.amount : ''}`;
+        } else {
+            node.classList.add('opponent-action');
+            node.innerHTML = `<span class="tree-node-icon">→</span>${entry.player} ${entry.action}`;
+        }
+        
+        decisionTree.appendChild(node);
+    });
+    
+    // Auto-scroll to bottom
+    decisionTree.scrollTop = decisionTree.scrollHeight;
 }
 
 function handlePlayerAction(action) {
