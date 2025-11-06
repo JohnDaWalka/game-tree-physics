@@ -183,7 +183,7 @@ class PokerGame {
             ranks[card.value] = (ranks[card.value] || 0) + 1;
         });
         const counts = Object.values(ranks).sort((a, b) => b - a);
-        const hasFullHouse = counts[0] === 3 && counts[1] >= 2;
+        const hasFullHouse = counts[0] === 3 && counts[1] === 2;
         
         if (hasFlush && hasStraight) return { rank: 8, name: 'Straight Flush' };
         if (pairs.fourOfKind) return { rank: 7, name: 'Four of a Kind' };
@@ -293,7 +293,12 @@ class PokerGame {
         const player = this.players[playerIndex];
         const strength = this.getHandStrength(playerIndex);
         const callAmount = this.currentBet - player.bet;
-        const potOdds = (this.pot + callAmount) > 0 ? callAmount / (this.pot + callAmount) : 0;
+        
+        // Calculate pot odds safely
+        let potOdds = 0;
+        if (callAmount > 0 && (this.pot + callAmount) > 0) {
+            potOdds = callAmount / (this.pot + callAmount);
+        }
 
         if (strength > 70) {
             return { action: 'raise', reason: 'Strong hand - maximize value' };

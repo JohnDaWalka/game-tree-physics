@@ -1,6 +1,14 @@
 // Poker UI Controller
 let game = null;
 
+// Action past tense mapping for consistent grammar
+const ACTION_PAST_TENSE = {
+    'check': 'checked',
+    'call': 'called',
+    'fold': 'folded',
+    'raise': 'raised'
+};
+
 // DOM Elements
 const communityCardsDisplay = document.getElementById('community-cards-display');
 const yourCardsDisplay = document.getElementById('your-cards');
@@ -227,14 +235,8 @@ function handlePlayerAction(action) {
     game.playerAction(0, action);
     renderGame();
     
-    // Create proper past tense
-    const actionPastTense = {
-        'check': 'checked',
-        'call': 'called',
-        'fold': 'folded',
-        'raise': 'raised'
-    };
-    const actionText = actionPastTense[action] || action + 'ed';
+    // Create proper past tense using the constant
+    const actionText = ACTION_PAST_TENSE[action] || action + 'ed';
     updateGameStatus(`You ${actionText}.`);
     
     // Process AI turns
@@ -279,19 +281,13 @@ function processAITurns() {
         const action = game.aiPlayerAction(index);
         if (action) {
             aiActed = true;
-            const actionPastTense = {
-                'check': 'checked',
-                'call': 'called',
-                'fold': 'folded',
-                'raise': 'raised'
-            };
             
             if (typeof action === 'object') {
                 game.playerAction(index, action.action, action.amount);
                 updateGameStatus(`${player.name} raised to $${action.amount}`);
             } else {
                 game.playerAction(index, action);
-                const pastTense = actionPastTense[action] || action + 'ed';
+                const pastTense = ACTION_PAST_TENSE[action] || action + 'ed';
                 updateGameStatus(`${player.name} ${pastTense}`);
             }
         }
