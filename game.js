@@ -146,8 +146,9 @@ class GameTreePhysics {
             this.powerUpTimer = 0;
         }
         
-        // Update obstacles
-        this.obstacles.forEach((obstacle, index) => {
+        // Update obstacles (iterate backwards to safely remove items)
+        for (let i = this.obstacles.length - 1; i >= 0; i--) {
+            const obstacle = this.obstacles[i];
             obstacle.y += obstacle.speed;
             
             // Check collision with tree
@@ -157,28 +158,29 @@ class GameTreePhysics {
             
             // Remove off-screen obstacles and add to score
             if (obstacle.y > this.canvas.height) {
-                this.obstacles.splice(index, 1);
+                this.obstacles.splice(i, 1);
                 this.score += 10;
                 this.updateScoreDisplay();
             }
-        });
+        }
         
-        // Update power-ups
-        this.powerUps.forEach((powerUp, index) => {
+        // Update power-ups (iterate backwards to safely remove items)
+        for (let i = this.powerUps.length - 1; i >= 0; i--) {
+            const powerUp = this.powerUps[i];
             powerUp.y += powerUp.speed;
             
             // Check collision with tree
             if (this.checkCollision(powerUp, this.tree)) {
                 this.score += 50;
-                this.powerUps.splice(index, 1);
+                this.powerUps.splice(i, 1);
                 this.updateScoreDisplay();
             }
             
             // Remove off-screen power-ups
             if (powerUp.y > this.canvas.height) {
-                this.powerUps.splice(index, 1);
+                this.powerUps.splice(i, 1);
             }
-        });
+        }
     }
     
     spawnObstacle() {
@@ -206,10 +208,19 @@ class GameTreePhysics {
     }
     
     checkCollision(obj1, obj2) {
-        return obj1.x < obj2.x + obj2.width / 2 &&
-               obj1.x + obj1.width > obj2.x - obj2.width / 2 &&
-               obj1.y < obj2.y &&
-               obj1.y + obj1.height > obj2.y - obj2.height;
+        // obj1 (obstacle/powerup) uses top-left positioning
+        // obj2 (tree) uses center positioning
+        const tree = {
+            left: obj2.x - obj2.width / 2,
+            right: obj2.x + obj2.width / 2,
+            top: obj2.y - obj2.height,
+            bottom: obj2.y
+        };
+        
+        return obj1.x < tree.right &&
+               obj1.x + obj1.width > tree.left &&
+               obj1.y < tree.bottom &&
+               obj1.y + obj1.height > tree.top;
     }
     
     gameOver() {
@@ -222,7 +233,10 @@ class GameTreePhysics {
             this.updateScoreDisplay();
         }
         
-        alert(`Game Over! Your score: ${this.score}`);
+        // Use setTimeout to avoid blocking the UI during the final render
+        setTimeout(() => {
+            alert(`Game Over! Your score: ${this.score}`);
+        }, 100);
     }
     
     draw() {
