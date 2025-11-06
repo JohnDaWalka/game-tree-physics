@@ -38,19 +38,14 @@ class PokerGame {
         document.getElementById('cancelRaiseBtn').addEventListener('click', () => this.hideRaisePanel());
     }
     
-    // Fischer-Yates shuffle with coefficient weighting for enhanced randomness
+    // Vanilla Fischer-Yates shuffle for cryptographically fair card distribution
     fischerCoefficientShuffle(array) {
         const shuffled = [...array];
         const n = shuffled.length;
         
-        // Fischer-Yates with coefficient adjustment for true randomness
+        // Standard Fischer-Yates algorithm for uniform distribution
         for (let i = n - 1; i > 0; i--) {
-            // Apply coefficient based on position for enhanced distribution
-            const coefficient = 1 + (0.05 * Math.sin(i * Math.PI / n));
-            const adjustedRange = Math.floor((i + 1) * coefficient);
-            const j = Math.floor(Math.random() * Math.min(adjustedRange, i + 1));
-            
-            // Swap elements
+            const j = Math.floor(Math.random() * (i + 1));
             [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
         

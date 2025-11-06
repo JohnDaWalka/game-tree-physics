@@ -65,14 +65,15 @@ The CPU opponent uses a sophisticated decision-making process:
 
 ## Technical Details
 
-### Fischer Coefficient Shuffling
+### Vanilla Fischer-Yates Shuffling
 ```javascript
 fischerCoefficientShuffle(array) {
-    // Enhanced Fischer-Yates with position-based coefficient
+    // Standard Fischer-Yates algorithm for uniform distribution
     for (let i = n - 1; i > 0; i--) {
-        const coefficient = 1 + (0.05 * Math.sin(i * Math.PI / n));
-        const adjustedRange = Math.floor((i + 1) * coefficient);
-        const j = Math.floor(Math.random() * Math.min(adjustedRange, i + 1));
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+}
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 }
@@ -140,10 +141,10 @@ The game internally builds and evaluates thousands of game states per decision, 
 - Expected value of each action
 
 ### Statistical Fairness
-Fischer coefficient shuffling ensures:
-- Uniform distribution of cards
-- No predictable patterns
-- Cryptographically secure randomness (within browser limitations)
-- Fair dealing for both players
+The vanilla Fischer-Yates shuffle ensures:
+- Uniform distribution of cards (each permutation equally likely)
+- No predictable patterns or bias
+- Provably fair randomness (within browser Math.random() limitations)
+- Equal probability for all card arrangements
 
 Enjoy the challenge of playing against a mathematically optimal poker opponent!
