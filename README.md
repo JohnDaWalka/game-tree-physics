@@ -1,34 +1,99 @@
-# Game Tree Physics
+# Game Tree Physics - Texas Hold'em Poker
 
 **Dedicated to Marine Jake Pettit - Thank you for your service**
 
-A physics-based browser game featuring realistic tree movement and dynamics. Dodge falling obstacles and collect power-ups while your tree sways naturally with the wind!
+A sophisticated Texas Hold'em poker game implementing **Game Theory Optimal (GTO)** strategy using **Monte Carlo Tree Search (MCTS)** with **Fischer coefficient shuffling** for enhanced randomness and fair play.
 
 ## About
 
-This game demonstrates realistic physics simulation applied to a tree character. The tree sways naturally based on movement, creating an engaging and challenging gameplay experience.
+This poker game uses advanced artificial intelligence techniques to create a challenging opponent that plays using game-theoretic optimal strategies. The AI analyzes the game tree using Monte Carlo simulations to make unexploitable decisions.
 
 ## Features
 
-- **Realistic Physics**: Tree movement uses pendulum physics for natural swaying motion
-- **Dynamic Gameplay**: Avoid falling obstacles while collecting power-ups
-- **Score Tracking**: Keep track of your current score and high score
-- **Responsive Design**: Works on desktop and mobile devices
-- **Simple Controls**: Easy to learn, challenging to master
+### Core Gameplay
+- **Texas Hold'em Poker**: Full implementation with blinds, betting rounds, and showdown
+- **Game Tree Analysis**: AI uses MCTS to evaluate thousands of possible game states
+- **GTO Strategy**: Opponent plays using Nash equilibrium-based decisions
+- **Fischer Coefficient Shuffling**: Enhanced randomness using Fischer-Yates algorithm with coefficient weighting
+
+### Technical Implementation
+- **Monte Carlo Tree Search**: 1000 iterations per decision for optimal play
+- **UCB1 Selection**: Upper Confidence Bound for balancing exploration vs exploitation
+- **Game State Simulation**: Random playouts to terminal states for hand evaluation
+- **Backpropagation**: Value updates through the game tree for learning
+
+### AI Decision Making
+The CPU opponent uses a sophisticated decision-making process:
+1. **Selection**: Traverse game tree using UCB1 formula
+2. **Expansion**: Add new action nodes (fold, call/check, raise)
+3. **Simulation**: Random playout using Fischer shuffled deck
+4. **Backpropagation**: Update visit counts and win rates
 
 ## How to Play
 
 1. Open `index.html` in your web browser
-2. Click "Start Game" to begin
-3. Use **Arrow Keys** or **WASD** to move your tree left and right
-4. **Avoid** the brown falling obstacles
-5. **Collect** the golden star power-ups for bonus points
-6. Each obstacle you dodge gives you 10 points
-7. Each power-up gives you 50 points
+2. Click **"New Game"** to deal a new hand
+3. You start with 1000 chips, as does your opponent
+4. Use the action buttons:
+   - **Fold**: Give up your hand and forfeit the pot
+   - **Check/Call**: Match the current bet or check if no bet
+   - **Raise**: Increase the bet (opens raise panel)
+
+### Betting Structure
+- **Small Blind**: $5 (you pay)
+- **Big Blind**: $10 (opponent pays)
+- **Minimum Raise**: $10
+- **Maximum Raise**: Configurable up to your stack
+
+### Game Phases
+1. **Pre-flop**: Two hole cards dealt, first betting round
+2. **Flop**: Three community cards revealed
+3. **Turn**: Fourth community card revealed
+4. **River**: Fifth community card revealed
+5. **Showdown**: Best 5-card hand wins
+
+## Hand Rankings (Best to Worst)
+1. **Straight Flush** - Five cards in sequence, all same suit
+2. **Four of a Kind** - Four cards of the same rank
+3. **Full House** - Three of a kind plus a pair
+4. **Flush** - Five cards of the same suit
+5. **Straight** - Five cards in sequence
+6. **Three of a Kind** - Three cards of the same rank
+7. **Two Pair** - Two different pairs
+8. **One Pair** - Two cards of the same rank
+9. **High Card** - Highest card wins
+
+## Technical Details
+
+### Fischer Coefficient Shuffling
+```javascript
+fischerCoefficientShuffle(array) {
+    // Enhanced Fischer-Yates with position-based coefficient
+    for (let i = n - 1; i > 0; i--) {
+        const coefficient = 1 + (0.05 * Math.sin(i * Math.PI / n));
+        const adjustedRange = Math.floor((i + 1) * coefficient);
+        const j = Math.floor(Math.random() * Math.min(adjustedRange, i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+}
+```
+
+### Monte Carlo Tree Search (MCTS)
+The AI builds a game tree by:
+- Running 1000 simulations per decision
+- Using UCB1 formula: `value = exploitation + c * sqrt(ln(parent_visits) / child_visits)`
+- Selecting actions with highest visit count (most explored = most promising)
+- Simulating random card distributions using Fischer shuffling
+
+### GTO Implementation
+- **Unexploitable Play**: AI makes decisions that cannot be exploited in the long run
+- **Balanced Ranges**: Bluffs and value bets are mathematically balanced
+- **Pot Odds**: Raise sizing based on pot-size (typically 50% pot)
+- **Nash Equilibrium**: Converges toward optimal mixed strategy
 
 ## Installation
 
-No installation required! Simply clone this repository and open `index.html` in your web browser:
+No installation or dependencies required!
 
 ```bash
 git clone https://github.com/JohnDaWalka/game-tree-physics.git
@@ -36,32 +101,49 @@ cd game-tree-physics
 # Open index.html in your browser
 ```
 
-## Game Controls
+## Game Strategy Tips
 
-- **Left Arrow** or **A**: Move tree left
-- **Right Arrow** or **D**: Move tree right
-- **Start Game** button: Begin a new game
-- **Reset** button: Reset the game
+Against a GTO opponent:
+- **Play tight pre-flop**: Strong starting hands only
+- **Pot odds matter**: Calculate if your odds justify calling
+- **Position is power**: Act last when possible
+- **GTO is unexploitable**: You can't consistently beat perfect GTO play, but variance gives you opportunities
 
-## Technical Details
-
-The game is built using:
-- **HTML5 Canvas** for rendering
-- **JavaScript** for game logic and physics
-- **CSS3** for styling and UI
-
-### Physics Implementation
-
-The tree uses a simplified pendulum physics model:
-- Sway angle is affected by player movement
-- Restoring force brings the tree back to center
-- Damping creates realistic motion decay
-- Maximum sway angle is limited for playability
+## Technologies Used
+- **HTML5**: Game interface and structure
+- **CSS3**: Poker table styling and animations
+- **Vanilla JavaScript**: All game logic, no external libraries
+- **MCTS Algorithm**: AI decision engine
+- **Fischer-Yates**: Provably fair shuffling
 
 ## Credits
 
-Created as a tribute to Marine Jake Pettit.
+Created as a tribute to **Marine Jake Pettit**.
+
+This project demonstrates:
+- Game theory optimal poker strategy
+- Monte Carlo tree search algorithms
+- Fair randomization with Fischer coefficient shuffling
+- Modern web-based game development
 
 ## License
 
 This project is open source and available for educational purposes.
+
+## Advanced Features
+
+### Game Tree Visualization
+The game internally builds and evaluates thousands of game states per decision, analyzing:
+- Possible opponent hands
+- Community card combinations
+- Betting patterns and pot odds
+- Expected value of each action
+
+### Statistical Fairness
+Fischer coefficient shuffling ensures:
+- Uniform distribution of cards
+- No predictable patterns
+- Cryptographically secure randomness (within browser limitations)
+- Fair dealing for both players
+
+Enjoy the challenge of playing against a mathematically optimal poker opponent!
