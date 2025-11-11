@@ -38,7 +38,7 @@ class PokerGame {
         document.getElementById('cancelRaiseBtn').addEventListener('click', () => this.hideRaisePanel());
     }
     
-    // Vanilla Fischer-Yates shuffle for cryptographically fair card distribution
+    // Vanilla Fischer-Yates shuffle for uniform card distribution
     fischerCoefficientShuffle(array) {
         const shuffled = [...array];
         const n = shuffled.length;
