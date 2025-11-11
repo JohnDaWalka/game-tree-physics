@@ -1,6 +1,6 @@
 // Texas Hold'em Poker with GTO Monte Carlo Tree Search
 // Dedicated to Marine Jake Pettit
-// Implements GTO strategy using MCTS with Fischer-Yates coefficient shuffling
+// Implements GTO strategy using MCTS with Fischer-Yates shuffling
 
 class PokerGame {
     constructor() {
