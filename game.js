@@ -125,7 +125,7 @@ class PokerGame {
             if (node.visits > 0 && node.children.length === 0) {
                 this.expandNode(node);
                 if (node.children.length > 0) {
-                    node = node.children[0];
+                    node = node.children[Math.floor(Math.random() * node.children.length)];
                 }
             }
             
