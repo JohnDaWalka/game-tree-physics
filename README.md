@@ -66,14 +66,11 @@ The CPU opponent uses a sophisticated decision-making process:
 ## Technical Details
 
 ### Vanilla Fischer-Yates Shuffling
-```javascript
-fischerCoefficientShuffle(array) {
+function fisherYatesShuffle(array) {
     // Standard Fischer-Yates algorithm for uniform distribution
-    for (let i = n - 1; i > 0; i--) {
+    for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-}
+        [array[i], array[j]] = [array[j], array[i]];
     }
 }
 ```
