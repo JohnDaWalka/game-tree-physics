@@ -74,7 +74,6 @@ fischerCoefficientShuffle(array) {
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 }
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 }
 ```
