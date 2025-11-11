@@ -217,7 +217,7 @@ class PokerGame {
             return 0;
         } else {
             // Tie - compare high cards
-            return cpuRank.highCard > playerRank.highCard ? 1 : 0;
+            return cpuRank.highCard > playerRank.highCard ? 1 : cpuRank.highCard < playerRank.highCard ? 0 : 0.5;
         }
     }
     
