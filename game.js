@@ -184,7 +184,13 @@ class PokerGame {
         }
         
         for (const action of actions) {
-            const childState = { ...node.state, lastAction: action };
+            const childState = { 
+                ...node.state, 
+                playerHand: node.state.playerHand ? [...node.state.playerHand] : [],
+                cpuHand: node.state.cpuHand ? [...node.state.cpuHand] : [],
+                communityCards: node.state.communityCards ? [...node.state.communityCards] : [],
+                lastAction: action 
+            };
             node.children.push({
                 state: childState,
                 visits: 0,
