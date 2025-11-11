@@ -173,7 +173,7 @@ class PokerGame {
     }
     
     expandNode(node) {
-        const callAmount = this.playerBet - this.cpuBet;
+        const callAmount = node.state.playerBet - node.state.cpuBet;
         const actions = [];
         
         // Determine available actions
